@@ -64,6 +64,20 @@ export default function pokemonController() {
     router.push(ROUTE_PATHS.WELCOME);
   };
 
+  const shareToMyFriends = () => {
+    if (!searchedPokemon.value) return;
+
+    const pokemonInfo = [
+      searchedPokemon.value.name,
+      searchedPokemon.value.height,
+      searchedPokemon.value.weight,
+      searchedPokemon.value.types.join(", "),
+      searchedPokemon.value.isFavorite ? "Favorite" : "Not Favorite",
+    ].join(", ");
+
+    navigator.clipboard.writeText(pokemonInfo);
+  };
+
   return {
     searchQuery,
     isLoading,
@@ -74,5 +88,6 @@ export default function pokemonController() {
     handleSearch,
     handleToggleFavorite,
     goToHome,
+    shareToMyFriends,
   };
 }
