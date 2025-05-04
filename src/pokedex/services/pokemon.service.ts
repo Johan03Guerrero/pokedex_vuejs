@@ -1,18 +1,11 @@
 import { HttpService } from "@/client/axiosService";
 import { pokemonEndpoints } from "../utils/endpoints";
 import { pokemonAdapter } from "../adapters/pokemon.adapter";
+import { pokemonDetailsAdapter, type PokemonApiResponse } from "../adapters/pokemonDetails.adapter";
 import { usePokemon } from "@/core/controllers/usePokemonStore.controller";
 import type { Pokemon } from "../models/pokemon.entity";
+import type { PokemonDetails } from "../models/pokemonDetails.entity";
 
-interface PokemonApiResponse {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: Array<{
-    name: string;
-    url: string;
-  }>;
-}
 
 export class PokemonService {
   private httpService: HttpService;
@@ -24,7 +17,7 @@ export class PokemonService {
 
   async getPokemons(): Promise<Pokemon[]> {
     const { favoritesList } = usePokemon();
-    const response = await this.httpService.get<PokemonApiResponse>(
+    const response = await this.httpService.get<{ results: Pokemon[] }>(
       pokemonEndpoints.getPokemons
     );
     return response.results.map((pokemon) =>
@@ -32,11 +25,11 @@ export class PokemonService {
     );
   }
 
-  async getPokemonByName(name: string): Promise<Pokemon> {
+  async getPokemonByName(name: string): Promise<PokemonDetails> {
     const { favoritesList } = usePokemon();
-    const response = await this.httpService.get<{ name: string; url: string }>(
+    const response = await this.httpService.get<PokemonApiResponse>(
       pokemonEndpoints.getPokemonByName(name)
     );
-    return pokemonAdapter(response, favoritesList.value);
+    return pokemonDetailsAdapter(response, favoritesList.value.includes(name));
   }
 }
