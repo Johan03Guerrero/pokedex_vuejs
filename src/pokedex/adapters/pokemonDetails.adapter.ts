@@ -1,8 +1,8 @@
 import type { PokemonDetails } from '../models/pokemonDetails.entity';
 
-export interface PokemonApiResponse {
+interface PokemonApiResponse {
   forms: Array<{ name: string }>;
-  height: number;
+  game_indices: { height: number };
   weight: number;
   types: Array<{ type: { name: string } }>;
   sprites: {
@@ -20,7 +20,7 @@ export const pokemonDetailsAdapter = (
 ): PokemonDetails => {
   return {
     name: data.forms[0].name,
-    height: data.height.toString(),
+    height: data.game_indices.height.toString(),
     weight: data.weight.toString(),
     types: data.types.map((type) => type.type.name),
     isFavorite,
