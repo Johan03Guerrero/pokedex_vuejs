@@ -1,6 +1,6 @@
 import type { PokemonDetails } from '../models/pokemonDetails.entity';
 
-interface PokemonApiResponse {
+export interface PokemonApiResponse {
   forms: Array<{ name: string }>;
   game_indices: { height: number };
   weight: number;

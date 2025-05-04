@@ -11,12 +11,11 @@ export const useGetPokemonByName = (name: Ref<string>) => {
     queryFn: async () => await pokemonService.getPokemonByName(name.value),
     enabled: !!name.value,
     refetchOnWindowFocus: false,
-    retry: 3,
+    retry: 0,
     staleTime: Infinity,
   });
 
   watch(name, () => {
-    console.log(name.value);
     if (name.value) {
       refetch();
     }
