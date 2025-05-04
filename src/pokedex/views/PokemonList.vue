@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { Input } from '@/components/ui/input'
 import { FontAwesomeIcon } from '@/plugins/fontawesome'
 import PokemonItem from './components/PokemonItem.vue'
 import Loader from '@/commons/components/Loader.vue'
 import pokemonController from '../controllers/pokemon.controller'
+import PokemonDetailModal from './components/PokemonDetailModal.vue'
+import { usePokemon } from '@/core/controllers/usePokemonStore.controller'
 
 const {
   searchQuery,
@@ -15,9 +17,19 @@ const {
   handleSearch,
   handleToggleFavorite,
   goToHome,
+  shareToMyFriends,
 } = pokemonController()
 
+const { favoritesList } = usePokemon()
+
+const pokemonIsFavorite = computed(() => {
+  if (!searchedPokemon.value) return false
+  return favoritesList.value.includes(searchedPokemon.value.name)
+})
+
 const inputValue = ref('')
+const isModalOpen = ref(false)
+const selectedPokemon = ref('')
 
 const handleKeyUp = (e: KeyboardEvent) => {
   if (e.key === 'Enter') {
@@ -25,6 +37,21 @@ const handleKeyUp = (e: KeyboardEvent) => {
   }
 }
 
+const handlePokemonDetails = (name: string) => {
+  selectedPokemon.value = name
+  handleSearch(name)
+  isModalOpen.value = true
+}
+
+const closeModal = () => {
+  isModalOpen.value = false
+}
+
+watch(searchedPokemon, (newPokemon) => {
+  if (newPokemon && newPokemon.name === selectedPokemon.value) {
+    isModalOpen.value = true
+  }
+})
 </script>
 
 <template>
@@ -55,8 +82,14 @@ const handleKeyUp = (e: KeyboardEvent) => {
         </button>
       </div>
       <div v-else class="space-y-2 max-h-[calc(100vh-200px)] overflow-y-auto">
-        <PokemonItem v-for="pokemon in searchResults" :key="pokemon.name" :name="pokemon.name"
-          :is-favorite="pokemon.isFavorite" @toggle-favorite="handleToggleFavorite" @pokemon-details="handleSearch(pokemon.name)"/>
+        <PokemonItem 
+          v-for="pokemon in searchResults" 
+          :key="pokemon.name" 
+          :name="pokemon.name"
+          :is-favorite="pokemon.isFavorite" 
+          @toggle-favorite="handleToggleFavorite" 
+          @pokemon-details="handlePokemonDetails"
+        />
       </div>
     </div>
     <div v-if="searchResults.length > 0"
@@ -74,4 +107,19 @@ const handleKeyUp = (e: KeyboardEvent) => {
       </button>
     </div>
   </div>
+  <PokemonDetailModal 
+    v-if="searchedPokemon"
+    :is-open="isModalOpen" 
+    @close="closeModal"
+    :pokemon="{
+      name: searchedPokemon.name,
+      image: searchedPokemon.image,
+      weight: searchedPokemon.weight,
+      height: searchedPokemon.height,
+      types: searchedPokemon.types
+    }"
+    :is-favorite="pokemonIsFavorite"
+    @toggle-favorite="handleToggleFavorite"
+    @copy="shareToMyFriends"
+  />
 </template>

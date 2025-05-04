@@ -68,12 +68,12 @@ export default function pokemonController() {
     if (!searchedPokemon.value) return;
 
     const pokemonInfo = [
-      searchedPokemon.value.name,
-      searchedPokemon.value.height,
-      searchedPokemon.value.weight,
-      searchedPokemon.value.types.join(", "),
-      searchedPokemon.value.isFavorite ? "Favorite" : "Not Favorite",
-    ].join(", ");
+      `name: ${searchedPokemon.value.name}`,
+      `height: ${searchedPokemon.value.height}`,
+      `weight: ${searchedPokemon.value.weight}`,
+      `types: ${searchedPokemon.value.types.join(", ")}`,
+      `favorite: ${favoritesList.value.includes(searchedPokemon.value.name) ? "yes" : "no"}`
+    ].join(",");
 
     navigator.clipboard.writeText(pokemonInfo);
   };

@@ -3,13 +3,15 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { 
   faStar,
   faList,
-  faMagnifyingGlass
+  faMagnifyingGlass,
+  faCircleXmark
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
   faStar,
   faList,
-  faMagnifyingGlass
+  faMagnifyingGlass,
+  faCircleXmark
 )
 
 export { FontAwesomeIcon } 
