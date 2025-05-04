@@ -1,5 +1,4 @@
-import { ref, watch } from "vue";
-import type { Ref } from "vue";
+import { watch, type Ref } from "vue";
 import { useQuery } from "@tanstack/vue-query";
 import { PokemonService } from "../services/pokemon.service";
 
