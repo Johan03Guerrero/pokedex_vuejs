@@ -20,11 +20,11 @@ export const pokedexModule: RouteRecordRaw = {
       name: ROUTE_NAMES.WELCOME,
       component: () => import("@/pokedex/views/WelcomeView.vue"),
     },
-    // {
-    //   path: ROUTE_PATHS.POKEMON_LIST,
-    //   name: ROUTE_NAMES.POKEMON_LIST,
-    //   component: () => import("@/pokedex/views/PokemonListView.vue"),
-    // },
+    {
+      path: ROUTE_PATHS.POKEMON_LIST,
+      name: ROUTE_NAMES.POKEMON_LIST,
+      component: () => import("@/pokedex/views/PokemonList.vue"),
+    },
     // {
     //   path: ROUTE_PATHS.POKEMON_DETAILS,
     //   name: ROUTE_NAMES.POKEMON_DETAILS,
