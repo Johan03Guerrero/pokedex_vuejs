@@ -4,7 +4,7 @@ A modern Pokédex web application built with Vue.js that allows users to search,
 
 ## 🎥 Project Demo
 
-https://github.com/Johan03Guerrero/pokedex_vuejs/assets/123456789/pokedex_demo.mp4
+https://github.com/Johan03Guerrero/pokedex_vuejs/assets/123456789/pokedex.webm
 
 ## 🚀 Features
 
